@@ -155,6 +155,9 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     intT block_cols = std::ceil((float)cols / col_block_size);
     intT size_of_block = row_block_size * col_block_size;
     intT n_blocks = block_rows * block_cols;
+    
+
+    std::cout << "Blockcols: " << block_cols << " Rowcols: " << block_rows << " Size Of Block: "
 
     intT* row_part = new intT[block_rows + 1];
     intT* col_part = new intT[block_cols + 1];
