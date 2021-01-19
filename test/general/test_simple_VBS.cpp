@@ -163,6 +163,9 @@ int main(int argc, char* argv[]) {
             << endl;
     }
 
+    arr_print(vbmat.jab, 18);
+
+
     if (verbose > 1) //print it
     {
         matprint(vbmat);
