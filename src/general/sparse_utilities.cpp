@@ -205,8 +205,8 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
         }
 
         arr_print(vbmat.jab, nz_blocks);
-
         vbmat.nzcount[i] = nzcount;
+        arr_print(nzcount, main_dim);
     }
 
 }
