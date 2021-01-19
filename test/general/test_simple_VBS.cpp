@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <ctime>
 #include <string>
 #include <unistd.h>
 #include <math.h>
@@ -9,21 +8,6 @@
 #include <iterator>
 #include <algorithm>
 
-// Utilities and system include
-#include <assert.h>
-#include <helper_string.h>  // helper for shared functions common to CUDA Samples
-
-// CUDA runtime
-#include <cuda_runtime.h>
-#include <cublas_v2.h>
-#include <cusparse_v2.h>
-
-
-// CUDA and CUBLAS functions
-#include <helper_functions.h>
-#include <helper_cuda.h>
-
-#include "cuda_utilities.h"
 #include "sparse_utilities.h"
 #include "comp_mats.h"
 
