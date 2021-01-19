@@ -171,26 +171,10 @@ int main(int argc, char* argv[]) {
     //___________________________________________
     //*******************************************
     //		END OF INPUT
-
-
     //*******************************************
-    //         MULTIPLICATION PHASE
-    //___________________________________________
-    //several ways of multiplying the sparse matrix
-    //with a dense one, with benchmarks
-    //******************************************
-
-    //keeps track of time
-    float dt;
-    vec_d algo_times;
-    float mean_time;
-    float std_time;
    
     //output format
     cout << fixed;
-
-
-    if (verbose > 0)        cout << "\n \n ************************** \n STARTING THE MULTIPLICATION PHASE \n" << endl;
 
     //creating a random matrix B
     intT B_rows = A_cols;
@@ -200,9 +184,6 @@ int main(int argc, char* argv[]) {
 
     if (verbose > 0)        std::cout << "Random matrix B created:" << std::endl;
     if (verbose > 1)        matprint(mat_B, B_rows, B_cols, B_rows, mat_B_fmt);
-
-
-
 
 
 
