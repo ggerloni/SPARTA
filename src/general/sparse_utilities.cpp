@@ -162,10 +162,10 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     partition(col_part, 0, block_cols, col_block_size);
 
     std::cout << "rowpart" << std::endl;
-    arrprint(row_part, block_rows + 1);
+    arr_print(row_part, block_rows + 1);
 
     std::cout << "colpart" << std::endl;
-    arrprint(col_part, block_cols + 1);
+    arr_print(col_part, block_cols + 1);
 
     //DETERMINE THE NZ BLOCK STRUCTURE
     //(this could be probably made to use less memory by extracting indices instead of permuting the vector)
@@ -180,7 +180,7 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
 
     std::cout << "nztot " << nz_tot << std::endl;
     std::cout << "nz_blocks array: ";
-    arrprint(blocks, n_blocks);
+    arr_print(blocks, n_blocks);
 
     init_VBS(vbmat, block_rows, row_part, block_cols, col_part, blocks_fmt, entries_fmt);
 
