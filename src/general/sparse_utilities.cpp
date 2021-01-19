@@ -180,7 +180,6 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
 
     std::cout << "nztot " << nz_tot << std::endl;
     std::cout << "nz_blocks array: ";
-    arr_print(blocks, n_blocks);
 
     init_VBS(vbmat, block_rows, row_part, block_cols, col_part, blocks_fmt, entries_fmt);
 
@@ -188,11 +187,10 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     vbmat.mab = new DataT[nz_tot];
     vbmat.jab = new intT[nz_blocks];
     
-
     intT nz_in_block = std::ceil(entries_density * size_of_block);
     //saves the indices of nonzero blocks into jab; saves the number of nz blocks per row (or col) into vbmat.nzcount;
     intT b = 0;
-    DataT* mab_idx = vbmat.mab; //the mab array will is filled up to this pointer
+    DataT* mab_idx = vbmat.mab; //the mab array is filled up to this pointer
     for (intT i = 0; i < main_dim; i++)
     {
         intT nzcount = 0;
