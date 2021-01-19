@@ -161,7 +161,11 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     partition(row_part, 0, block_rows, row_block_size); //row and block partition for creating the VBS
     partition(col_part, 0, block_cols, col_block_size);
 
-    std::cout << "test1" << std::endl;
+    std::cout << "rowpart" << std::endl;
+    arrprint(row_part, block_rows + 1);
+
+    std::cout << "colpart" << std::endl;
+    arrprint(col_part, block_cols + 1);
 
     //DETERMINE THE NZ BLOCK STRUCTURE
     //(this could be probably made to use less memory by extracting indices instead of permuting the vector)
@@ -174,13 +178,16 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     intT compressed_dim = (blocks_fmt == 0) ? block_cols : block_rows;
     intT nz_tot = nz_blocks * size_of_block;
 
+    std::cout << "nztot " << nz_tot << std::endl;
+    std::cout << "nz_blocks array: ";
+    arrprint(blocks, n_blocks);
+
     init_VBS(vbmat, block_rows, row_part, block_cols, col_part, blocks_fmt, entries_fmt);
 
     vbmat.nztot = nz_tot;
     vbmat.mab = new DataT[nz_tot];
     vbmat.jab = new intT[nz_blocks];
     
-    std::cout << "test1" << std::endl;
 
     intT nz_in_block = std::ceil(entries_density * size_of_block);
     //saves the indices of nonzero blocks into jab; saves the number of nz blocks per row (or col) into vbmat.nzcount;
@@ -203,7 +210,6 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
         }
         vbmat.nzcount[i] = nzcount;
     }
-    std::cout << "test1" << std::endl;
 
 }
 
@@ -225,6 +231,7 @@ int matprint(DataT* mat, intT rows, intT* row_part, intT row_blocks, intT cols, 
 {
     for (intT ib = 0; ib < row_blocks; ib++)
     {
+
         for (intT i = row_part[ib]; i < row_part[ib + 1]; i++)
         {
             for (intT jb = 0; jb < col_blocks; jb++)
@@ -504,22 +511,15 @@ int convert_to_VBS(DataT* mat, intT mat_rows, intT mat_cols, int mat_fmt, VBS& v
     }
     //----------------------------------------------------------------------------------
 
- 
-
-
     vbmat.nztot = total_nonzero_entries;
     vbmat.jab = new intT[jab.size()];
     vbmat.mab = new DataT[total_nonzero_entries];
 
     std:copy(jab.begin(), jab.end(), vbmat.jab);
 
-
     intT mat_idx = 0; //keeps reading position for mat
     intT vbmat_idx = 0; //keeps writing position for vbmat 
     intT jab_count = 0;
-
- 
-
 
     //COPY VALUES from mat to vbmat ------------------------------------------------------
     for (intT i = 0; i < vbmat_main_dim; i++)
@@ -561,9 +561,6 @@ int convert_to_VBS(DataT* mat, intT mat_rows, intT mat_cols, int mat_fmt, VBS& v
             jab_count++;
         }
     }
-
- 
-
 
     return 0;
 }

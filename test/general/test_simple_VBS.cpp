@@ -55,7 +55,6 @@ int main(int argc, char* argv[]) {
     intT col_block_size = 4;
     float density = 0.5;        //density of the input matrix;
     float block_density = 0.5;  //density inside the blocks;
-    string input_source;
 
     intT B_cols = 5;             //number of columns in the output matrix;
     float B_density = 1.;       //density of the multiplication matrix
