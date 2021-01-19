@@ -161,6 +161,11 @@ int main(int argc, char* argv[]) {
             << endl;
     }
 
+    if (verbose > 1) //print it
+    {
+        matprint(vbmat);
+    }
+
     //___________________________________________
     //*******************************************
     //		END OF INPUT
