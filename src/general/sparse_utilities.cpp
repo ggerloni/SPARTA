@@ -161,8 +161,8 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
 
     intT* row_part = new intT[block_rows + 1];
     intT* col_part = new intT[block_cols + 1];
-    partition(row_part, 0, block_rows, row_block_size); //row and block partition for creating the VBS
-    partition(col_part, 0, block_cols, col_block_size);
+    partition(row_part, 0, rows, row_block_size); //row and block partition for creating the VBS
+    partition(col_part, 0, cols, col_block_size);
 
     std::cout << "rowpart" << std::endl;
     arr_print(row_part, block_rows + 1);
