@@ -197,7 +197,7 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
                 std::cout << "NZ: i" << i << " j" << j << std::endl;
                 std::fill(mab_idx, mab_idx + nz_in_block, 1); //fill part of the block with ones
                 std::random_shuffle(mab_idx, mab_idx + size_of_block); //shuffle the block
-                vbmat.jab[b] == j; //save the index of the block in jab
+                vbmat.jab[b] = j; //save the index of the block in jab
                 nzcount += 1; //keep the count of nonzero blocks
                 mab_idx += size_of_block; // jump to next block on mab 
             }
