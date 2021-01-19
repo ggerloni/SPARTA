@@ -169,6 +169,8 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     std::fill(blocks.begin(), blocks.begin() + nz_blocks, 1);    //make nzblocks blocks nonzero;
     std::random_shuffle(blocks.begin(), blocks.end());          //put the nonzero blocks in random positions
 
+    for (auto i : blocks) std::cout << i << " ";
+
     intT main_dim = (blocks_fmt == 0)? block_rows : block_cols;
     intT compressed_dim = (blocks_fmt == 0) ? block_cols : block_rows;
     intT nz_tot = nz_blocks * size_of_block;
