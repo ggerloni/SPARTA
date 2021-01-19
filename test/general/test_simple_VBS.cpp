@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
     //terminal options loop
     opterr = 0;
     char c;
-    while ((c = getopt(argc, argv, "b:q:Q:m:n:p:k:S:f:F:")) != -1)
+    while ((c = getopt(argc, argv, "b:q:Q:m:n:p:P:k:S:f:F:")) != -1)
         switch (c)
         {
         
@@ -101,9 +101,12 @@ int main(int argc, char* argv[]) {
             mat_A_block_fmt = stoi(optarg);
             break;
 
-        case 'p': //size of blocks
-            //ony used if i = 4, random VBS
-            block_size = stoi(optarg);
+        case 'p': //size of row blocks
+            row_block_size = stoi(optarg);
+            break;
+
+        case 'P': //size of col blocks
+            col_block_size = stoi(optarg);
             break;
 
         case 'q': //density of input matrix
@@ -147,7 +150,7 @@ int main(int argc, char* argv[]) {
 
     VBS vbmat;
 
-    random_sparse_blocks_mat(vbmat, A_rows, A_cols, mat_A_block_fmt, mat_A_entries_fmt, row_block_size, col_block_size, block_density, density)
+    random_sparse_blocks_mat(vbmat, A_rows, A_cols, mat_A_block_fmt, mat_A_entries_fmt, row_block_size, col_block_size, block_density, density);
        
     if (verbose > 0)
     {
