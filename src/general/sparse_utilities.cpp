@@ -298,6 +298,7 @@ int partition(intT* arr, intT start, intT end, intT step)
     while (val < end)
     {
         arr[i] = val;
+        std::cout << arr[i] << std::endl;
         val += step;
         i++;
     }
