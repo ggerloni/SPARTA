@@ -169,10 +169,6 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
     std::fill(blocks.begin(), blocks.begin() + nz_blocks, 1);    //make nzblocks blocks nonzero;
     std::random_shuffle(blocks.begin(), blocks.end());          //put the nonzero blocks in random positions
 
-    std::cout << blocks.size() << std::endl;
-    for (auto i : blocks)
-        std::cout << i << " ";
-
     intT main_dim = (blocks_fmt == 0)? block_rows : block_cols;
     intT compressed_dim = (blocks_fmt == 0) ? block_cols : block_rows;
     intT nz_tot = nz_blocks * size_of_block;
@@ -195,7 +191,6 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
         {
             if (blocks[b] != 0)
             {
-                std::cout << "NZ: i" << i << " j" << j << std::endl;
                 std::fill(mab_idx, mab_idx + nz_in_block, 1); //fill part of the block with ones
                 std::random_shuffle(mab_idx, mab_idx + size_of_block); //shuffle the block
                 vbmat.jab[jab_count] = j; //save the index of the block in jab
@@ -204,12 +199,9 @@ int random_sparse_blocks_mat(VBS& vbmat, intT rows, intT cols, int blocks_fmt, i
                 mab_idx += size_of_block; // jump to next block on mab 
             }
             b++;
-            std::cout << "b" << b << std::endl;
         }
 
-        arr_print(vbmat.jab, nz_blocks);
         vbmat.nzcount[i] = nzcount;
-        arr_print(vbmat.nzcount, main_dim);
     }
 
 }
