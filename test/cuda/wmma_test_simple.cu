@@ -75,10 +75,10 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 	{
 		for (int i = 0; i < nzblocks_R; ++i)
 		{  
-			const int block_R = 0;
+			const int block_R = VBS_JAB[warp_M];
 			const int idx_R = warp_M * M_TILES;
 
-			const int block_C = 0;
+			const int block_C = VBS_JAB[warp_N];
 			const int idx_C = block_C * WMMA_K;
 
 			// Bounds checking
