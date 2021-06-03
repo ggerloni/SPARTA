@@ -67,12 +67,13 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 	// Initialize the output to zero
 	wmma::fill_fragment(frag_C, 0.0f);
 
-	// Number of non-zero for each row
+	// Number of non-zero block in each row (warp_M dimension)
 	const int nzblocks_R = NZ_COUNT[warp_M];
 	
 	// Outer K loop (in blocks)
 	if (nzblocks_R > 0)
 	{
+		// Row of blocks 
 		for (int i = 0; i < nzblocks_R; ++i)
 		{  
 			const int block_R = VBS_JAB[warp_M];
@@ -87,8 +88,10 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 				wmma::load_matrix_sync(frag_A, A + block_R * M_TILES, WMMA_M);
 				wmma::load_matrix_sync(frag_B, B, WMMA_N);
 
+				// Execute matrix multiplication 
 				wmma::mma_sync(frag_C, frag_A, frag_B, frag_C);
 
+				// Store the result
 				wmma::store_matrix_sync(C + idx_R * lead_C + idx_C, frag_C, lead_C, wmma::mem_row_major); 
 			}
 		}
