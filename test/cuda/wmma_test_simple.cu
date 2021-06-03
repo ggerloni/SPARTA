@@ -56,8 +56,8 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 
 	// 2D tile division in warps 
 	int warp_M = (blockIdx.x * blockDim.x + threadIdx.x) / WARP_SIZE;
-	int warp_K = (blockIdx.y * blockDim.y + threadIdx.y);
-
+	int warp_N = (blockIdx.y * blockDim.y + threadIdx.y);
+	
 	// printf("Thread = %d, warp_M = %d, warp_K = %d\n", threadIdx.x, warp_M, warp_K);
 
 	wmma::fragment<wmma::matrix_a, WMMA_M, WMMA_N, WMMA_K, half, wmma::row_major> frag_A;
@@ -71,7 +71,7 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 	const int nzblocks_R = NZ_COUNT[warp_M];
 	
 	// Outer K loop (in blocks)
-	 if (nzblocks_R > 0)
+	if (nzblocks_R > 0)
 	{
 		for (int i = 0; i < nzblocks_R; ++i)
 		{  
@@ -79,7 +79,7 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 			const int idx_R = warp_M * M_TILES;
 
 			const int block_C = VBS_JAB[warp_N];
-			const int idx_C = block_C * WMMA_K;
+			const int idx_C = block_C * WMMA_N;
 
 			// Bounds checking
 			if (warp_M < R_BLOCKS && warp_K < C_BLOCKS && idx_R < M)
@@ -91,28 +91,28 @@ __global__ void wmma_test_simple(const half *__restrict__ A, const half *__restr
 
 				wmma::store_matrix_sync(C + idx_R * lead_C + idx_C, frag_C, lead_C, wmma::mem_row_major); 
 			}
-	 	}
+		}
 	}
 
 	int col_C = warp_N * WMMA_N;
 	int row_C = warp_M * WMMA_M;
 
 	// Bounds checking
-	if (row_C < m_ld && col_C < n_ld) 
+	if (row_C < M && col_C < N) 
 	{
-    	wmma::load_matrix_sync(frag_C, C + col_C + row_C * lead_C, lead_C, wmma::mem_row_major);
+    		wmma::load_matrix_sync(frag_C, C + col_C + row_C * lead_C, lead_C, wmma::mem_row_major);
 
 		// Accumulate result
-    	for (int i = 1; i < frag_C.num_elements; i++) 
-      		frag_C.x[i] += frag_C.x[i - 1];
-    }
+    		for (int i = 1; i < frag_C.num_elements; i++) 
+      			frag_C.x[i] += frag_C.x[i - 1];
+    	}
 
-    // Store the output
+    	// Store the output
 	wmma::store_matrix_sync(C + col_C + row_C * lead_C, frag_C, lead_C, wmma::mem_row_major); 
 }
 
 // This kernel converts the input matrices to half precision (supported by wmma)
-__global__ void convert_to_fp16(half *OUT, float *IN, int N)
+__global__ void convert_to_fp16(half *OUT, float *__restrict__ IN, const int N)
 {
 	int tid = blockDim.x * blockIdx.x + threadIdx.x;
 	if (tid < N)
